@@ -1,0 +1,40 @@
+{
+  "quizzes": [
+    {
+      "id": "quiz_1",
+      "title": "General Knowledge",
+      "questions": [
+        {
+          "id": "q1",
+          "question": "Who is the best teacher?",
+          "options": ["Ronan", "Hongly", "Leangsiv"],
+          "correctAnswerIndex": 0
+        },
+        {
+          "id": "q2",
+          "question": "What is the best color?",
+          "options": ["Blue", "Red", "Green"],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "q3",
+          "question": "What is the main programming language used in Flutter?",
+          "options": ["Java", "Dart", "Kotlin", "Swift"],
+          "correctAnswerIndex": 1
+        },
+        {
+          "id": "q4",
+          "question": "Which widget is used to create a scrollable list in Flutter?",
+          "options": ["Column", "Container", "ListView"],
+          "correctAnswerIndex": 2
+        },
+        {
+          "id": "q5",
+          "question": "What does setState() do in Flutter?",
+          "options": ["Deletes the widget", "Updates the UI", "Creates a new widget", "Closes the app"],
+          "correctAnswerIndex": 1
+        }
+      ]
+    }
+  ]
+}
