@@ -34,11 +34,12 @@ class ResultScreen extends StatelessWidget {
       if (answers[i] == quiz.questions[i].correctAnswerIndex) correct++;
     }
     final percentage = questionsAnswered > 0 ? ((correct / questionsAnswered) * 100).toInt() : 0;
+    final isPassed = percentage >= 60;
 
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF2196F3), Color(0xFF1976D2)],
+          colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -49,24 +50,205 @@ class ResultScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                const SizedBox(height: 20),
-                const Text('Quiz Completed!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
+                // Celebration Icon
                 Container(
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
-                  child: Column(
-                    children: [
-                      const Text('Your Score', style: TextStyle(fontSize: 16, color: Colors.grey)),
-                      const SizedBox(height: 10),
-                      Text('$correct/$questionsAnswered', style: const TextStyle(fontSize: 56, fontWeight: FontWeight.bold, color: Color(0xFF2196F3))),
-                      const SizedBox(height: 10),
-                      Text('$percentage%', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: percentage >= 60 ? Colors.green : Colors.red)),
-                    ],
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isPassed ? Colors.green.withOpacity(0.2) : Colors.orange.withOpacity(0.2),
+                    border: Border.all(
+                      color: isPassed ? Colors.green : Colors.orange,
+                      width: 3,
+                    ),
+                  ),
+                  child: Icon(
+                    isPassed ? Icons.celebration : Icons.info,
+                    size: 50,
+                    color: isPassed ? Colors.green : Colors.orange,
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text('Review Your Answers', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                // Result Title
+                Text(
+                  isPassed ? 'Congratulations!' : 'Quiz Completed',
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  isPassed ? 'Great job! You passed the quiz' : 'Keep practicing to improve your score',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 40),
+                // Score Card
+                Container(
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 20,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Your Score',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                '$correct',
+                                style: const TextStyle(
+                                  fontSize: 48,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF667EEA),
+                                ),
+                              ),
+                              const Text(
+                                'Correct',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            width: 2,
+                            height: 80,
+                            color: Colors.grey.withOpacity(0.3),
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                '$percentage',
+                                style: TextStyle(
+                                  fontSize: 48,
+                                  fontWeight: FontWeight.bold,
+                                  color: isPassed ? Colors.green : Colors.orange,
+                                ),
+                              ),
+                              const Text(
+                                'Percentage',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            width: 2,
+                            height: 80,
+                            color: Colors.grey.withOpacity(0.3),
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                '$questionsAnswered',
+                                style: const TextStyle(
+                                  fontSize: 48,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF764BA2),
+                                ),
+                              ),
+                              const Text(
+                                'Total',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      // Performance bar
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Performance',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                '${percentage}%',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF667EEA),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: LinearProgressIndicator(
+                              value: percentage / 100,
+                              minHeight: 8,
+                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                isPassed ? Colors.green : Colors.orange,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 35),
+                // Review Answers
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Answer Review',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 15),
                 ListView.builder(
                   shrinkWrap: true,
@@ -81,9 +263,14 @@ class ResultScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 12),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: isCorrect ? Colors.green.shade200 : Colors.red.shade200,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: isCorrect ? Colors.green : Colors.red, width: 2),
+                        color: isCorrect
+                            ? Colors.green.withOpacity(0.15)
+                            : Colors.red.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: isCorrect ? Colors.green : Colors.red,
+                          width: 1.5,
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,46 +278,182 @@ class ResultScreen extends StatelessWidget {
                           Row(
                             children: [
                               Container(
-                                width: 24,
-                                height: 24,
-                                decoration: BoxDecoration(shape: BoxShape.circle, color: isCorrect ? Colors.green : Colors.red),
-                                child: Center(child: Icon(isCorrect ? Icons.check : Icons.close, color: Colors.white, size: 16)),
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: isCorrect ? Colors.green : Colors.red,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    isCorrect ? Icons.check : Icons.close,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 10),
-                              Expanded(child: Text('Question ${index + 1}', style: TextStyle(fontWeight: FontWeight.bold, color: isCorrect ? Colors.green.shade900 : Colors.red.shade900))),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  'Question ${index + 1}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isCorrect ? Colors.green : Colors.red,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
+                          const SizedBox(height: 12),
+                          Text(
+                            question.question,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          ),
                           const SizedBox(height: 10),
-                          Text(question.question, style: TextStyle(fontWeight: FontWeight.bold, color: isCorrect ? Colors.green.shade900 : Colors.red.shade900)),
-                          const SizedBox(height: 8),
-                          Text('Your: ${question.options[userAnswer!]}', style: TextStyle(color: isCorrect ? Colors.green.shade900 : Colors.red.shade900)),
-                          if (!isCorrect) ...[const SizedBox(height: 5), Text('Correct: ${question.options[question.correctAnswerIndex]}', style: TextStyle(color: Colors.red.shade900, fontWeight: FontWeight.bold))],
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Your Answer:',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  question.options[userAnswer!],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                if (!isCorrect) ...[
+                                  const SizedBox(height: 12),
+                                  Container(
+                                    height: 1,
+                                    color: Colors.white.withOpacity(0.2),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    'Correct Answer:',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white70,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    question.options[question.correctAnswerIndex],
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     );
                   },
                 ),
                 const SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: onRestart,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  ),
-                  child: const Text('Restart Quiz', style: TextStyle(color: Color(0xFF2196F3), fontSize: 16, fontWeight: FontWeight.bold)),
+                // Action Buttons
+                Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 54,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.3),
+                            blurRadius: 15,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: ElevatedButton(
+                        onPressed: onRestart,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.refresh, color: Color(0xFF667EEA), size: 20),
+                            SizedBox(width: 10),
+                            Text(
+                              'Restart Quiz',
+                              style: TextStyle(
+                                color: Color(0xFF667EEA),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.4),
+                          width: 2,
+                        ),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: onHistory,
+                          borderRadius: BorderRadius.circular(15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.history, color: Colors.white, size: 18),
+                              SizedBox(width: 10),
+                              Text(
+                                'View History',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                OutlinedButton(
-                  onPressed: onHistory,
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.white),
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  ),
-                  child: const Text('View History', style: TextStyle(color: Colors.white, fontSize: 16)),
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 25),
               ],
             ),
           ),
